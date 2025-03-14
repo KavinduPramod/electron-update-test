@@ -9,8 +9,15 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "echo \"No linting configured\"",
+    "dist": "electron-builder"
   },
+  "repository": "https://github.com/KavinduPramod/electron-update-test.git",
+  "publish": {
+    "provider": "github",
+    "releaseType": "release"
+  },
+
   "keywords": [],
   "author": {
     "name": "Kavindu Pramod",
@@ -19,15 +26,10 @@
   "build": {
   "appId": "test.autoupdate.test",
   "win": {
-    "target": [
-      {
-        "target": "nsis",
-        "arch": [
-          "x64",
-          "ia32"
-        ]
-      }
-    ]
+    "target": "nsis"
+  },
+  "directories": {
+      "output": "dist"
   }
 },
   "license": "MIT",
@@ -42,10 +44,10 @@
     "@electron-forge/plugin-vite": "^7.7.0",
     "@electron/fuses": "^1.8.0",
     "electron": "35.0.1",
-    "vite": "^5.4.14"
+    "vite": "^5.4.14",
+    "electron-builder": "^25.1.8"
   },
   "dependencies": {
-    "electron-builder": "^25.1.8",
     "electron-squirrel-startup": "^1.0.1",
     "electron-updater": "^6.3.9"
   }

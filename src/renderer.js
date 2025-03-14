@@ -26,19 +26,36 @@
  * ```
  */
 
-import './index.css';
-import packageJson from '../package.json';
+import "./index.css";
+import packageJson from "../package.json";
 
-console.log('👋 This message is being logged by "renderer.js", included via Vite');
+console.log(
+  '👋 This message is being logged by "renderer.js", included via Vite'
+);
 
 // function to display the version from package.jhson
 function displayVersion() {
-    
-    const version = packageJson.version;
-    const versionElement = document.getElementById('version');
-    versionElement.innerText = "v" + version;
-  }
-  
-  window.addEventListener('DOMContentLoaded', () => {
-    displayVersion();
+  const version = packageJson.version;
+  const versionElement = document.getElementById("version");
+  versionElement.innerText = "v" + version;
+
+  // Listen for the custom event dispatched from the preload script
+  window.bridge.onUpdateAvailable(() => {
+    console.log('Update available!');
+    updateAvailable();
   });
+  
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  displayVersion();
+});
+
+function updateAvailable() {
+  const updateElement = document.getElementById("update");
+  updateElement.innerText = "Update Available Close the app to update";
+  updateElement.style.display = "block";
+  updateElement.addEventListener("click", () => {
+    window.bridge.updateAvailable();
+  });
+}
