@@ -63,10 +63,10 @@ app.on('window-all-closed', () => {
 autoUpdater.on("update-available", (info) => {
   const dialogOpts = {
     type: "info",
-    buttons: ["Restart", "Later"],
+    buttons: ["Download", "Later"],
     title: "New Update Available",
-    message: "A new update is available. Do you want to restart?",
-    detail: "A new update is available. Do you want to restart?",
+    message: "A new update is available. Do you want to Download?",
+    detail: "A new update is available. Do you want to Download?",
   };
 
   dialog.showMessageBox(dialogOpts).then((returnValue) => {
