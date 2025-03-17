@@ -1,7 +1,7 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron'); // Added dialog import
 const path = require('node:path');
 const packageJson = require("../package.json");
-const { autoUpdater, AppUpdater } = require("electron-updater");
+const { autoUpdater } = require("electron-updater");
 
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
@@ -59,13 +59,8 @@ app.on('window-all-closed', () => {
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
-
-
-/*New Update Available*/
+// New Update Available
 autoUpdater.on("update-available", (info) => {
-  // show dialog to user as new update is available
   const dialogOpts = {
     type: "info",
     buttons: ["Restart", "Later"],
@@ -74,15 +69,29 @@ autoUpdater.on("update-available", (info) => {
     detail: "A new update is available. Do you want to restart?",
   };
 
-  // download the update
-  autoUpdater.downloadUpdate();
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) {
+      autoUpdater.downloadUpdate();
+    }
+  });
 });
 
 autoUpdater.on("update-not-available", (info) => {
+  console.log("No updates are available.");
+  const dialogOpts = {
+    type: "info",
+    buttons: ["OK"],
+    title: "No Updates Available",
+    message: "No updates are available.",
+    detail: "No updates are available.",
+  };
 
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    // do nothing
+  });
 });
 
-/*Download Completion Message*/
+// Download Completion Message
 autoUpdater.on("update-downloaded", (info) => {
   const dialogOpts = {
     type: "info",
@@ -99,6 +108,8 @@ autoUpdater.on("update-downloaded", (info) => {
   });
 });
 
-autoUpdater.on("error", (info) => {
-  console.log(info);
+autoUpdater.on("error", (error) => {
+  console.error("Error during update:", error);
+  dialog.showErrorBox("Update Error", error == null ? "unknown" : (error.stack || error).toString());
 });
+
