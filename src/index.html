@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="index.css" />
-  </head>
-  <body>
-    <h1>💖 Hello World!</h1>
-    <p>Welcome to your Electron application.</p>
-  </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Version</title>
+</head>
+<body>
+    <h1>Welcome to My Electron App</h1>
+    <p>App Version: <span id="version"></span></p>
+
+    <script>
+        // Fetch the app version and display it
+        window.electronAPI.getAppVersion().then(version => {
+            document.getElementById('version').innerText = version;
+        });
+    </script>
+</body>
 </html>
